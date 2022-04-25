@@ -1,0 +1,39 @@
+import ddf.minim.*;
+Minim minim;
+AudioPlayer song;
+String[] songNames;
+String nowPlaying;
+int index;
+boolean started;
+ArrayList<String> songsPlayed = new ArrayList();
+
+void setup(){
+  surface.setLocation(0, 0);
+  size(800, 600);
+  minim = new Minim(this);
+  songNames = loadStrings("c:/users/Goo/Music/songData.txt");
+  nowPlaying = " ";
+  textAlign(CENTER);
+  started = false;
+}
+
+void draw(){
+  background(0);
+  fill(255);
+  textSize(width/23);
+  text("Click in window to load a random song\n\nNOW PLAYING: \n" + 
+      nowPlaying, width/2, height/8);
+  if(started && !song.isPlaying()){
+    loadSong();
+  }
+  if(songNames.length == songsPlayed.size() && !song.isPlaying()){
+      started = false;
+      songsPlayed.clear();
+      frameCount = -1;
+    }
+}
+
+void mouseReleased(){
+  started = true;
+  loadSong();
+}
